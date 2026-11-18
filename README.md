@@ -14,38 +14,32 @@ The project focuses on organizing customer relationships and simplifying day-to-
 
 - **User Authentication:** Secure authentication using JWT and password hashing.
 - **Role-Based Access:** Supports Admin, Manager, and Sales Representative roles.
-<img width="1376" height="768" alt="crm_login" src="https://github.com/user-attachments/assets/caab2f47-bc6f-4174-b9f4-1d845b232cf4" /><br><br><br><br>
-
-
-
-
-
-
+ <img width="1836" height="895" alt="image" src="https://github.com/user-attachments/assets/314b9a4b-f844-4664-937b-1e4caf890537" /><br><br><br><br>
 
 - **Customer Management:** Maintain customer profiles and contact information.
-<img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/edd54797-8685-46d0-b680-4ef822cb5437" />
+<img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/edd54797-8685-46d0-b680-4ef822cb5437" /><br><br><br><br>
 - 
 - **Lead Management:** Track leads, their sources, interests, and conversion status.
- <img width="1917" height="915" alt="image" src="https://github.com/user-attachments/assets/0469e4d4-e3f6-4b5e-9040-b05f9aaecf50" />
+ <img width="1917" height="915" alt="image" src="https://github.com/user-attachments/assets/0469e4d4-e3f6-4b5e-9040-b05f9aaecf50" /><br><br><br><br>
 
 - **Deal Management:** Organize banking deals and monitor their progress through different stages.
-<img width="1911" height="910" alt="image" src="https://github.com/user-attachments/assets/9273f13e-8901-4034-937d-cf4e4b447ea7" />
+<img width="1911" height="910" alt="image" src="https://github.com/user-attachments/assets/9273f13e-8901-4034-937d-cf4e4b447ea7" /><br><br><br><br>
 
 - **Task Management:** Manage follow-ups, calls, meetings, and other activities.
-<img width="1911" height="915" alt="image" src="https://github.com/user-attachments/assets/ce980299-4be9-43d7-992a-9b47c885b33e" />
+<img width="1911" height="915" alt="image" src="https://github.com/user-attachments/assets/ce980299-4be9-43d7-992a-9b47c885b33e" /><br><br><br><br>
 
 - **Notes Management:** Maintain notes associated with customers, leads, and deals.
-<img width="1917" height="912" alt="image" src="https://github.com/user-attachments/assets/ffb0f74a-e935-4ae1-a4d7-f1319b96c853" />
+<img width="1917" height="912" alt="image" src="https://github.com/user-attachments/assets/ffb0f74a-e935-4ae1-a4d7-f1319b96c853" /><br><br><br><br>
 
 - **Activity Logs:** Track important user actions and system activities.
 - **Dashboard & Reports:** Dedicated backend modules for dashboard insights and reporting.
-<img width="1917" height="910" alt="image" src="https://github.com/user-attachments/assets/122f3780-059a-4059-9fb1-0b8bf58c88e9" />
+<img width="1917" height="910" alt="image" src="https://github.com/user-attachments/assets/122f3780-059a-4059-9fb1-0b8bf58c88e9" /><br><br><br><br>
 
 - **Search:** Search functionality for CRM records.
-- <img width="1913" height="692" alt="image" src="https://github.com/user-attachments/assets/0eadffe0-394f-4b57-a7d0-7aaf79bd847b" />
+- <img width="1913" height="692" alt="image" src="https://github.com/user-attachments/assets/0eadffe0-394f-4b57-a7d0-7aaf79bd847b" /><br><br><br><br>
 
 - **Settings:** Dedicated settings management module.
-- <img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/72aa6ccd-bda1-4d26-9ea0-f53880bc24ef" />
+- <img width="1911" height="912" alt="image" src="https://github.com/user-attachments/assets/72aa6ccd-bda1-4d26-9ea0-f53880bc24ef" /><br><br><br><br>
 
 
 ## 🛠️ Tech Stack
