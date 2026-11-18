@@ -18,6 +18,10 @@ The project focuses on organizing customer relationships and simplifying day-to-
 
 
 
+
+
+
+
 - **Customer Management:** Maintain customer profiles and contact information.
 <img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/edd54797-8685-46d0-b680-4ef822cb5437" />
 - 
