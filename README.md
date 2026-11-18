@@ -186,5 +186,21 @@ The main objective of TrustedBank CRM is to develop a centralized banking CRM so
 - LinkedIn: [Connect with me](https://www.linkedin.com/in/nisha-nishad-b94877286/)
 
 ---
+## 🔐 Authentication & Role Selection
 
+TrustedBank Portal provides a dedicated login interface for accessing the CRM platform.
+
+Key login features include:
+
+- Official work email and password authentication.
+- Forgot password option.
+- Quick-select testing roles for convenient testing.
+- Separate access levels for Admin, Manager, and Relationship Managers.
+- Support for testing with 10 Relationship Manager accounts.
+
+### Login Page
+
+![TrustBank CRM Login Page](screenshots/login-page.png)
+
+*The login interface includes role-selection shortcuts for testing different user access levels.*
 ⭐ If you find this project interesting, feel free to explore the repository and share your feedback!
