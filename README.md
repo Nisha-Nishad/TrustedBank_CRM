@@ -16,6 +16,8 @@ The project focuses on organizing customer relationships and simplifying day-to-
 - **Role-Based Access:** Supports Admin, Manager, and Sales Representative roles.
 <img width="1376" height="768" alt="crm_login" src="https://github.com/user-attachments/assets/caab2f47-bc6f-4174-b9f4-1d845b232cf4" />
 
+
+
 - **Customer Management:** Maintain customer profiles and contact information.
 <img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/edd54797-8685-46d0-b680-4ef822cb5437" />
 - 
