@@ -18,7 +18,7 @@ The project focuses on organizing customer relationships and simplifying day-to-
 
 - **Customer Management:** Maintain customer profiles and contact information.
 <img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/edd54797-8685-46d0-b680-4ef822cb5437" /><br><br><br><br>
-- 
+  
 - **Lead Management:** Track leads, their sources, interests, and conversion status.
  <img width="1917" height="915" alt="image" src="https://github.com/user-attachments/assets/0469e4d4-e3f6-4b5e-9040-b05f9aaecf50" /><br><br><br><br>
 
