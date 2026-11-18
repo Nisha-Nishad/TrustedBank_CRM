@@ -200,7 +200,8 @@ Key login features include:
 
 ### Login Page
 
-![TrustBank CRM Login Page](screenshots/login-page.png)
+<img width="1836" height="895" alt="image" src="https://github.com/user-attachments/assets/a927610b-6cbf-4d90-99ab-a611323e2587" /><br><br><br><br>
+
 
 *The login interface includes role-selection shortcuts for testing different user access levels.*
 ⭐ If you find this project interesting, feel free to explore the repository and share your feedback!
