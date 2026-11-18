@@ -1,0 +1,56 @@
+# ==========================================
+# TrustBank CRM — Security & Git Ignore Configuration
+# ==========================================
+
+# 1. Confidential Documents & Specification PDFs (Safely Ignored)
+*.pdf
+CRM_Build_Prompts.pdf
+CRM_UI_Prompts.pdf
+Simple CRM Project Plan (Bank-Ready Base) - Copy.pdf
+docs/
+
+# 2. README & Documentation (Ignored per user request)
+README.md
+
+# 3. Environment Variables & Secret Credentials (CRITICAL)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+*.env
+
+# 4. Local Database Files & SQLite Storage
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+backend/prisma/dev.db
+backend/prisma/dev.db-journal
+
+# 5. Node Modules & Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# 6. Build Outputs & Compilations
+dist/
+frontend/dist/
+build/
+.cache/
+
+# 7. Logs & Debugging Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 8. Operating System & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

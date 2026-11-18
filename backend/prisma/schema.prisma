@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  role         String        @default("SALES_REP") // ADMIN, MANAGER, SALES_REP
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  createdCustomers Customer[]
+  assignedLeads    Lead[]
+  ownedDeals       Deal[]
+  assignedTasks    Task[]
+  notes            Note[]
+  activityLogs     ActivityLog[]
+
+  @@map("users")
+}
+
+model Customer {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String
+  email       String
+  address     String?
+  city        String?
+  type        String   @default("INDIVIDUAL") // INDIVIDUAL, BUSINESS
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  leads Lead[]
+  deals Deal[]
+
+  @@map("customers")
+}
+
+model Lead {
+  id              String    @id @default(uuid())
+  name            String
+  phone           String
+  email           String
+  source          String    @default("WEBSITE") // WEBSITE, BRANCH, REFERRAL, CALL
+  productInterest String
+  status          String    @default("NEW") // NEW, CONTACTED, QUALIFIED, LOST, CONVERTED
+  assignedToId    String?
+  assignedTo      User?     @relation(fields: [assignedToId], references: [id])
+  customerId      String?
+  customer        Customer? @relation(fields: [customerId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  deals Deal[]
+
+  @@map("leads")
+}
+
+model Deal {
+  id         String    @id @default(uuid())
+  leadId     String?
+  lead       Lead?     @relation(fields: [leadId], references: [id])
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  title      String
+  amount     Float
+  stage      String    @default("NEW") // NEW, CONTACTED, DOCUMENTS, VERIFICATION, APPROVED, WON, LOST
+  ownerId    String
+  owner      User      @relation(fields: [ownerId], references: [id])
+  createdAt  DateTime  @default(now())
+  closedAt   DateTime?
+  updatedAt  DateTime  @updatedAt
+
+  @@map("deals")
+}
+
+model Task {
+  id           String   @id @default(uuid())
+  title        String
+  type         String   @default("FOLLOW_UP") // CALL, MEETING, EMAIL, FOLLOW_UP
+  dueDate      DateTime
+  status       String   @default("PENDING") // PENDING, COMPLETED
+  relatedType  String   // LEAD, CUSTOMER, DEAL
+  relatedId    String
+  assignedToId String
+  assignedTo   User     @relation(fields: [assignedToId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("tasks")
+}
+
+model Note {
+  id          String   @id @default(uuid())
+  content     String
+  relatedType String   // LEAD, CUSTOMER, DEAL
+  relatedId   String
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@map("notes")
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String   // CREATE, UPDATE, DELETE, STAGE_CHANGE, CONVERT, LOGIN
+  entityType String   // LEAD, CUSTOMER, DEAL, TASK, USER
+  entityId   String
+  details    String?
+  createdAt  DateTime @default(now())
+
+  @@map("activity_logs")
+}

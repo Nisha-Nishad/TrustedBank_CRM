@@ -1,0 +1,17 @@
+const request = require('supertest');
+const app = require('../app');
+
+describe('Health & Server Setup', () => {
+  it('GET /health returns 200 and status ok', async () => {
+    const res = await request(app).get('/health');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.service).toBe('Custom Bank CRM API');
+  });
+
+  it('GET /non-existent returns 404', async () => {
+    const res = await request(app).get('/api/unknown-route');
+    expect(res.statusCode).toBe(404);
+    expect(res.body.error).toBe('Endpoint not found');
+  });
+});
