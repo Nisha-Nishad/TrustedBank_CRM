@@ -67,19 +67,21 @@ export default function AdminUsersPage({ onNotify }) {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-[#64748B]">System Administration &bull; Access Control</div>
-          <h2 className="text-xl font-bold text-[#0F172A]">User & Role Management</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F172A]">User & Role Management</h2>
         </div>
-        <Button onClick={() => setIsModalOpen(true)}>+ Create New User</Button>
+        <Button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center">
+          + Create New User
+        </Button>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs">
+      <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-x-auto custom-scrollbar">
+        <table className="w-full text-left text-xs min-w-[650px]">
           <thead className="bg-[#F8FAFC] text-[#64748B] border-b border-[#E2E8F0]">
             <tr>
               <th className="py-3 px-4 font-semibold">User Name</th>

@@ -58,40 +58,42 @@ export default function CustomersPage({ onViewCustomer360, onNotify }) {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-[#64748B]">Customer Master &bull; Phase 1</div>
-          <h2 className="text-xl font-bold text-[#0F172A]">Customer Directory</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F172A]">Customer Directory</h2>
         </div>
-        <Button onClick={() => setIsModalOpen(true)}>+ Add Customer</Button>
+        <Button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center">
+          + Add Customer
+        </Button>
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div className="bg-white p-3 sm:p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             fetchCustomers();
           }}
-          className="flex items-center gap-2 flex-1 max-w-sm"
+          className="flex items-center gap-2 flex-1 w-full sm:max-w-sm"
         >
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by customer name, email, phone..."
+            placeholder="Search by name, email, phone..."
             className="w-full border border-[#CBD5E1] rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#1E3A8A]"
           />
           <Button type="submit" variant="secondary" size="sm">Search</Button>
         </form>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
+            className="w-full sm:w-auto border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
           >
             <option value="">All Customer Types</option>
             <option value="INDIVIDUAL">Individual / Salaried</option>
@@ -100,9 +102,9 @@ export default function CustomersPage({ onViewCustomer360, onNotify }) {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs">
+      {/* Table with Horizontal Scroll for Mobile */}
+      <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-x-auto custom-scrollbar">
+        <table className="w-full text-left text-xs min-w-[680px]">
           <thead className="bg-[#F8FAFC] text-[#64748B] border-b border-[#E2E8F0]">
             <tr>
               <th className="py-3 px-4 font-semibold">Customer Details</th>

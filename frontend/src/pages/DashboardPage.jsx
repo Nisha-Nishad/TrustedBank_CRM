@@ -53,11 +53,11 @@ export default function DashboardPage({ setActivePage, onNotify }) {
   ];
 
   return (
-    <div className="p-8 space-y-6 bg-[#F8FAFC]">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 bg-[#F8FAFC]">
       {/* Top Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-[#0F172A] tracking-tight">
+          <h1 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
             Branch Performance Dashboard
           </h1>
           <p className="text-xs text-[#64748B] mt-0.5">
@@ -67,7 +67,7 @@ export default function DashboardPage({ setActivePage, onNotify }) {
 
         <button
           onClick={() => setActivePage('leads')}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0F357E] hover:bg-[#1E3A8A] text-white text-xs font-semibold rounded-lg shadow-sm transition"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#0F357E] hover:bg-[#1E3A8A] text-white text-xs font-semibold rounded-lg shadow-sm transition w-full sm:w-auto"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Lead</span>
@@ -127,35 +127,37 @@ export default function DashboardPage({ setActivePage, onNotify }) {
             Leads by Pipeline Stage
           </h2>
 
-          <div className="relative pt-6 pb-2">
-            {/* Horizontal Gridlines */}
-            <div className="absolute inset-x-0 top-6 bottom-8 flex flex-col justify-between pointer-events-none opacity-40">
-              <div className="border-b border-[#E2E8F0]"></div>
-              <div className="border-b border-[#E2E8F0]"></div>
-              <div className="border-b border-[#E2E8F0]"></div>
-              <div className="border-b border-[#E2E8F0]"></div>
-            </div>
+          <div className="relative pt-6 pb-2 overflow-x-auto custom-scrollbar">
+            <div className="min-w-[320px] relative">
+              {/* Horizontal Gridlines */}
+              <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none opacity-40">
+                <div className="border-b border-[#E2E8F0]"></div>
+                <div className="border-b border-[#E2E8F0]"></div>
+                <div className="border-b border-[#E2E8F0]"></div>
+                <div className="border-b border-[#E2E8F0]"></div>
+              </div>
 
-            {/* Vertical Bars Columns */}
-            <div className="relative z-10 flex items-end justify-between gap-3 h-48 px-2">
-              {pipelineStages.map((stage) => (
-                <div key={stage.name} className="flex-1 flex flex-col items-center justify-end h-full group">
-                  <span className="text-[11px] font-semibold text-[#0F172A] mb-1.5">
-                    {stage.count}
-                  </span>
+              {/* Vertical Bars Columns */}
+              <div className="relative z-10 flex items-end justify-between gap-1.5 sm:gap-3 h-48 px-1 sm:px-2">
+                {pipelineStages.map((stage) => (
+                  <div key={stage.name} className="flex-1 flex flex-col items-center justify-end h-full group">
+                    <span className="text-[10px] sm:text-[11px] font-semibold text-[#0F172A] mb-1.5">
+                      {stage.count}
+                    </span>
 
-                  <div className="w-full max-w-[42px] bg-[#E2E8F0] rounded-t flex items-end overflow-hidden" style={{ height: '100%' }}>
-                    <div
-                      className="w-full bg-[#0F357E] rounded-t transition-all duration-500 group-hover:bg-[#1E3A8A]"
-                      style={{ height: `${stage.heightPercent}%` }}
-                    ></div>
+                    <div className="w-full max-w-[42px] bg-[#E2E8F0] rounded-t flex items-end overflow-hidden" style={{ height: '100%' }}>
+                      <div
+                        className="w-full bg-[#0F357E] rounded-t transition-all duration-500 group-hover:bg-[#1E3A8A]"
+                        style={{ height: `${stage.heightPercent}%` }}
+                      ></div>
+                    </div>
+
+                    <span className="text-[10px] sm:text-[11px] text-[#475569] font-medium mt-2 text-center truncate max-w-[64px]" title={stage.name}>
+                      {stage.name}
+                    </span>
                   </div>
-
-                  <span className="text-[11px] text-[#475569] font-medium mt-2 text-center truncate max-w-[64px]">
-                    {stage.name}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

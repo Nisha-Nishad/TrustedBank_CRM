@@ -9,10 +9,11 @@ import {
   ArrowRight,
   Building,
   Loader2,
+  Menu,
 } from 'lucide-react';
 import { api } from '../services/api';
 
-export default function Navbar({ user, onNavigate }) {
+export default function Navbar({ user, onNavigate, onToggleMobileMenu }) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -82,38 +83,49 @@ export default function Navbar({ user, onNavigate }) {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-[#E2E8F0] px-8 flex items-center justify-between shrink-0 relative z-30">
-      {/* Global Omnisearch Container */}
-      <div ref={searchContainerRef} className="relative w-[380px]">
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#94A3B8]" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setIsOpen(true);
-            }}
-            onFocus={() => setIsOpen(true)}
-            placeholder="Search leads, customers, deals, phone..."
-            className="w-full bg-white border border-[#E2E8F0] text-xs rounded-lg pl-9 pr-8 py-2 text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-1 focus:ring-[#0F357E] shadow-sm"
-          />
-          {query ? (
-            <button
-              onClick={() => {
-                setQuery('');
-                setResults({ customers: [], leads: [], deals: [] });
-              }}
-              className="absolute right-2.5 top-2.5 text-[#94A3B8] hover:text-[#0F172A]"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          ) : null}
-        </div>
+    <header className="h-16 bg-white border-b border-[#E2E8F0] px-3 sm:px-6 md:px-8 flex items-center justify-between shrink-0 relative z-30 gap-2 sm:gap-4">
+      {/* Left Area: Mobile Hamburger + Omnisearch */}
+      <div className="flex items-center gap-2 flex-1 max-w-[440px]">
+        {/* Mobile Hamburger Menu Toggle */}
+        <button
+          onClick={onToggleMobileMenu}
+          className="md:hidden p-2 rounded-lg text-[#334155] hover:bg-[#F1F5F9] transition shrink-0"
+          aria-label="Open Navigation Menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
 
-        {/* Search Results Dropdown */}
-        {isOpen && (
-          <div className="absolute left-0 right-0 top-11 bg-white border border-[#CBD5E1] rounded-xl shadow-xl overflow-hidden text-xs z-50 max-h-[460px] overflow-y-auto custom-scrollbar">
+        {/* Global Omnisearch Container */}
+        <div ref={searchContainerRef} className="relative flex-1 min-w-0">
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#94A3B8]" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setIsOpen(true);
+              }}
+              onFocus={() => setIsOpen(true)}
+              placeholder="Search leads, customers, deals..."
+              className="w-full bg-white border border-[#E2E8F0] text-xs rounded-lg pl-9 pr-8 py-2 text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-1 focus:ring-[#0F357E] shadow-sm"
+            />
+            {query ? (
+              <button
+                onClick={() => {
+                  setQuery('');
+                  setResults({ customers: [], leads: [], deals: [] });
+                }}
+                className="absolute right-2.5 top-2.5 text-[#94A3B8] hover:text-[#0F172A]"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            ) : null}
+          </div>
+
+          {/* Search Results Dropdown */}
+          {isOpen && (
+            <div className="absolute left-0 top-11 bg-white border border-[#CBD5E1] rounded-xl shadow-xl overflow-hidden text-xs z-50 max-h-[460px] overflow-y-auto custom-scrollbar w-[calc(100vw-24px)] max-w-[420px]">
             {/* Quick Search Guide when no query or query < 2 */}
             {query.length < 2 && (
               <div className="p-4 bg-[#F8FAFC]">
@@ -254,23 +266,24 @@ export default function Navbar({ user, onNavigate }) {
             )}
           </div>
         )}
+        </div>
       </div>
 
       {/* Right User Bar */}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2 sm:gap-4 shrink-0">
         {/* Notification Bell */}
         <button
           onClick={() => alert('No new regulatory notifications. All 20 customer accounts in good standing.')}
           className="relative p-1.5 text-[#64748B] hover:text-[#0F172A] rounded-lg transition"
           title="Notifications"
         >
-          <Bell className="w-5 h-5 text-[#334155]" />
+          <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-[#334155]" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-[#DC2626] rounded-full ring-2 ring-white"></span>
         </button>
 
         {/* User Info */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[#0F357E] text-white flex items-center justify-center font-bold text-xs shadow-sm overflow-hidden border border-[#E2E8F0]">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#0F357E] text-white flex items-center justify-center font-bold text-xs shadow-sm overflow-hidden border border-[#E2E8F0] shrink-0">
             {user?.name ? (
               user.name
                 .split(' ')
@@ -282,9 +295,9 @@ export default function Navbar({ user, onNavigate }) {
               'NN'
             )}
           </div>
-          <div>
-            <div className="text-xs font-bold text-[#0F172A] leading-tight">
-              {displayName} &bull; {roleSubtitle}
+          <div className="hidden sm:block">
+            <div className="text-xs font-bold text-[#0F172A] leading-tight truncate max-w-[150px]">
+              {displayName}
             </div>
             <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#EFF6FF] text-[#0F357E] border border-[#BFDBFE]">
               {roleName}

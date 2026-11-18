@@ -72,18 +72,20 @@ export default function TasksPage({ onNotify }) {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-[#64748B]">Action Items & Reminders &bull; Phase 1</div>
-          <h2 className="text-xl font-bold text-[#0F172A]">Tasks Management</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F172A]">Tasks Management</h2>
         </div>
-        <Button onClick={() => setIsModalOpen(true)}>+ Create Task</Button>
+        <Button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center">
+          + Create Task
+        </Button>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-[#E2E8F0] flex gap-6 text-xs font-semibold">
+      {/* Tabs with Horizontal Scroll for Mobile */}
+      <div className="border-b border-[#E2E8F0] flex gap-4 sm:gap-6 text-xs font-semibold overflow-x-auto custom-scrollbar flex-nowrap -mx-4 sm:mx-0 px-4 sm:px-0">
         {[
           { key: 'today', label: "Today's Tasks" },
           { key: 'upcoming', label: 'Upcoming' },
@@ -93,7 +95,7 @@ export default function TasksPage({ onNotify }) {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`pb-3 transition ${
+            className={`pb-3 transition shrink-0 ${
               activeTab === tab.key
                 ? 'text-[#1E3A8A] border-b-2 border-[#1E3A8A] font-bold'
                 : 'text-[#64748B] hover:text-[#0F172A]'
@@ -118,14 +120,14 @@ export default function TasksPage({ onNotify }) {
             return (
               <div
                 key={task.id}
-                className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex items-center justify-between hover:border-[#CBD5E1] transition"
+                className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-[#CBD5E1] transition"
               >
-                <div className="flex items-center gap-3.5">
+                <div className="flex items-start sm:items-center gap-3.5">
                   <input
                     type="checkbox"
                     checked={isCompleted}
                     onChange={() => handleToggleComplete(task.id)}
-                    className="w-4 h-4 rounded text-[#1E3A8A] border-[#CBD5E1] focus:ring-[#1E3A8A] cursor-pointer"
+                    className="w-4 h-4 rounded text-[#1E3A8A] border-[#CBD5E1] focus:ring-[#1E3A8A] cursor-pointer mt-0.5 sm:mt-0 shrink-0"
                   />
                   <div>
                     <div
@@ -141,7 +143,7 @@ export default function TasksPage({ onNotify }) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#F1F5F9]">
                   <Badge variant={isCompleted ? 'success' : 'warning'}>
                     {isCompleted ? 'Completed' : 'Pending'}
                   </Badge>

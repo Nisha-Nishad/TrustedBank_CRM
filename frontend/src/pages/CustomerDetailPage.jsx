@@ -68,25 +68,25 @@ export default function CustomerDetailPage({ customerId, onBack, onNotify }) {
   }
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Back button & title */}
       <button onClick={onBack} className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E3A8A] hover:underline">
         <ArrowLeft className="w-3.5 h-3.5" /> Back to Customers List
       </button>
 
       {/* Profile Header Card */}
-      <div className="bg-white p-6 rounded-2xl border border-[#E2E8F0] shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#1E3A8A] text-white flex items-center justify-center text-xl font-bold shadow-md">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#1E3A8A] text-white flex items-center justify-center text-lg sm:text-xl font-bold shadow-md shrink-0">
             {customer.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <div className="flex items-center gap-2.5">
-              <h2 className="text-lg font-bold text-[#0F172A]">{customer.name}</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-base sm:text-lg font-bold text-[#0F172A]">{customer.name}</h2>
               <Badge variant="success">✓ KYC Verified</Badge>
               <Badge variant="primary">{customer.type}</Badge>
             </div>
-            <div className="text-xs text-[#64748B] mt-1 space-x-3">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#64748B] mt-1">
               <span>Customer ID: <strong className="text-[#0F172A] font-mono">#{customer.id.slice(0, 8)}</strong></span>
               <span>&bull;</span>
               <span>Phone: <strong className="text-[#0F172A]">{customer.phone}</strong></span>
@@ -98,7 +98,7 @@ export default function CustomerDetailPage({ customerId, onBack, onNotify }) {
           </div>
         </div>
 
-        <div className="text-xs text-[#64748B] text-right">
+        <div className="text-xs text-[#64748B] sm:text-right pt-2 sm:pt-0 border-t sm:border-t-0 border-[#F1F5F9]">
           <div>Relationship Manager</div>
           <div className="font-bold text-[#0F172A]">{customer.createdBy?.name || 'Assigned RM'}</div>
         </div>

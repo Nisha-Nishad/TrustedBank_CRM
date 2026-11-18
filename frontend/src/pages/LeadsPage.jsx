@@ -90,19 +90,21 @@ export default function LeadsPage({ onNotify }) {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-[#64748B]">Pipeline Management &bull; Phase 1</div>
-          <h2 className="text-xl font-bold text-[#0F172A]">Leads Management</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F172A]">Leads Management</h2>
         </div>
-        <Button onClick={() => setIsModalOpen(true)}>+ Add New Lead</Button>
+        <Button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto justify-center">
+          + Add New Lead
+        </Button>
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
-        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 flex-1 max-w-sm">
+      <div className="bg-white p-3 sm:p-4 rounded-xl border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 flex-1 w-full sm:max-w-sm">
           <input
             type="text"
             value={search}
@@ -113,11 +115,11 @@ export default function LeadsPage({ onNotify }) {
           <Button type="submit" variant="secondary" size="sm">Search</Button>
         </form>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
+            className="flex-1 sm:flex-none border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
           >
             <option value="">All Sources</option>
             <option value="BRANCH">Branch Walk-in</option>
@@ -129,7 +131,7 @@ export default function LeadsPage({ onNotify }) {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
+            className="flex-1 sm:flex-none border border-[#CBD5E1] rounded-lg px-3 py-1.5 bg-white text-[#0F172A]"
           >
             <option value="">All Statuses</option>
             <option value="NEW">New</option>
@@ -142,8 +144,8 @@ export default function LeadsPage({ onNotify }) {
       </div>
 
       {/* Leads Table */}
-      <div className="bg-white rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs">
+      <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-sm overflow-x-auto custom-scrollbar">
+        <table className="w-full text-left text-xs min-w-[700px]">
           <thead className="bg-[#F8FAFC] text-[#64748B] border-b border-[#E2E8F0]">
             <tr>
               <th className="py-3 px-4 font-semibold">Lead Name</th>

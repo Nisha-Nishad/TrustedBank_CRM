@@ -149,12 +149,12 @@ export default function SettingsPage({ user, onNotify }) {
   ];
 
   return (
-    <div className="p-8 space-y-6 bg-[#F8FAFC]">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 bg-[#F8FAFC]">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold text-[#0F172A] tracking-tight">
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
               Bank CRM Settings & Compliance Configuration
             </h1>
             <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#EFF6FF] text-[#0F357E] border border-[#BFDBFE]">
@@ -167,14 +167,14 @@ export default function SettingsPage({ user, onNotify }) {
         </div>
 
         {user?.role === 'ADMIN' && (
-          <span className="px-3 py-1 bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A] text-xs font-semibold rounded-lg">
+          <span className="px-3 py-1 bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A] text-xs font-semibold rounded-lg shrink-0">
             🛡️ Admin Privileges Active
           </span>
         )}
       </div>
 
-      {/* Settings Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-px">
+      {/* Settings Navigation Tabs with Horizontal Scroll for Mobile */}
+      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-px overflow-x-auto custom-scrollbar flex-nowrap -mx-4 sm:mx-0 px-4 sm:px-0">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -182,7 +182,7 @@ export default function SettingsPage({ user, onNotify }) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-t-lg transition border-b-2 -mb-px ${
+              className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 text-xs font-semibold rounded-t-lg transition border-b-2 -mb-px shrink-0 ${
                 isActive
                   ? 'border-[#0F357E] text-[#0F357E] bg-white shadow-2xs'
                   : 'border-transparent text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
@@ -197,7 +197,7 @@ export default function SettingsPage({ user, onNotify }) {
 
       {/* Tab 1: Branch & Operational Profile */}
       {activeTab === 'branch' && (
-        <div className="bg-white p-6 rounded-xl border border-[#E2E8F0] shadow-sm max-w-4xl space-y-6">
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-[#E2E8F0] shadow-sm max-w-4xl space-y-6">
           <div>
             <h2 className="text-sm font-bold text-[#0F172A]">Bank Branch Operational Profile</h2>
             <p className="text-xs text-[#64748B] mt-0.5">

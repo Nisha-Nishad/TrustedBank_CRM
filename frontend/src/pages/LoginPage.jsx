@@ -125,8 +125,8 @@ export default function LoginPage({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#F8FAFC] to-[#EEF2F6]">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-[#E2E8F0] p-8">
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 bg-gradient-to-b from-[#F8FAFC] to-[#EEF2F6]">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-[#E2E8F0] p-5 sm:p-8">
         
         {/* Bank Brand Logo */}
         <div className="text-center mb-6">

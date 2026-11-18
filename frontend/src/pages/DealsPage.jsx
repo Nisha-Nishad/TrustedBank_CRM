@@ -73,27 +73,28 @@ export default function DealsPage({ onNotify }) {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-[#64748B]">Pipeline Management &bull; Phase 1</div>
-          <h2 className="text-xl font-bold text-[#0F172A]">Deals & Loan Pipeline</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-[#0F172A]">Deals & Loan Pipeline</h2>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="primary">Kanban Board View</Badge>
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-start">
+          <Badge variant="primary">Kanban View</Badge>
           <Button onClick={() => setIsModalOpen(true)}>+ New Deal</Button>
         </div>
       </div>
 
-      {/* Kanban Board Columns Container */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3.5 min-w-[1100px] overflow-x-auto pb-6">
+      {/* Kanban Board Columns Container with Horizontal Swipe */}
+      <div className="overflow-x-auto custom-scrollbar pb-6 -mx-4 sm:mx-0 px-4 sm:px-0">
+        <div className="flex gap-3.5 min-w-[950px] lg:grid lg:grid-cols-6 lg:min-w-0">
         {STAGES.map((st) => {
           const columnData = groupedDeals[st.key] || { count: 0, totalAmount: 0, deals: [] };
           return (
             <div
               key={st.key}
-              className={`bg-[#F1F5F9] p-3 rounded-xl border border-[#E2E8F0] border-t-4 ${st.color} flex flex-col min-h-[500px]`}
+              className={`w-[260px] lg:w-auto shrink-0 lg:shrink bg-[#F1F5F9] p-3 rounded-xl border border-[#E2E8F0] border-t-4 ${st.color} flex flex-col min-h-[500px]`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E2E8F0]">
@@ -149,6 +150,7 @@ export default function DealsPage({ onNotify }) {
             </div>
           );
         })}
+        </div>
       </div>
 
       {/* Add Deal Modal */}
