@@ -14,7 +14,7 @@ The project focuses on organizing customer relationships and simplifying day-to-
 
 - **User Authentication:** Secure authentication using JWT and password hashing.
 - **Role-Based Access:** Supports Admin, Manager, and Sales Representative roles.
-<img width="1376" height="768" alt="crm_login" src="https://github.com/user-attachments/assets/caab2f47-bc6f-4174-b9f4-1d845b232cf4" />
+<img width="1376" height="768" alt="crm_login" src="https://github.com/user-attachments/assets/caab2f47-bc6f-4174-b9f4-1d845b232cf4" /><br><br><br><br>
 
 
 
