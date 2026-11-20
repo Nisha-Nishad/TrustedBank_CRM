@@ -17,12 +17,18 @@ model User {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
-  createdCustomers Customer[]
-  assignedLeads    Lead[]
-  ownedDeals       Deal[]
-  assignedTasks    Task[]
-  notes            Note[]
-  activityLogs     ActivityLog[]
+  createdCustomers  Customer[]
+  assignedLeads     Lead[]
+  ownedDeals        Deal[]
+  assignedTasks     Task[]
+  notes             Note[]
+  activityLogs      ActivityLog[]
+
+  // Phase 2 Banking Relations
+  verifiedDocuments KycDocument[]
+  approvedDeals     Deal[]        @relation("DealApprovals")
+  assignedTickets   Ticket[]      @relation("AssignedTickets")
+  createdTickets    Ticket[]      @relation("CreatedTickets")
 
   @@map("users")
 }
@@ -35,13 +41,18 @@ model Customer {
   address     String?
   city        String?
   type        String   @default("INDIVIDUAL") // INDIVIDUAL, BUSINESS
+  kycStatus   String   @default("PENDING")    // PENDING, VERIFIED, REJECTED
+  cibilScore  Int?     @default(750)
+  monthlyIncome Float?
   createdById String
   createdBy   User     @relation(fields: [createdById], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  leads Lead[]
-  deals Deal[]
+  leads        Lead[]
+  deals        Deal[]
+  kycDocuments KycDocument[]
+  tickets      Ticket[]
 
   @@map("customers")
 }
@@ -77,11 +88,70 @@ model Deal {
   stage      String    @default("NEW") // NEW, CONTACTED, DOCUMENTS, VERIFICATION, APPROVED, WON, LOST
   ownerId    String
   owner      User      @relation(fields: [ownerId], references: [id])
+
+  // Phase 2: Banking Loan & Product Pipeline
+  loanType          String?   @default("PERSONAL_LOAN") // HOME_LOAN, PERSONAL_LOAN, AUTO_LOAN, BUSINESS_LOAN, GOLD_LOAN
+  tenureMonths      Int?      @default(36)
+  interestRate      Float?    @default(10.5)
+  monthlyIncome     Float?
+  eligibilityStatus String?   @default("PENDING") // ELIGIBLE, INELIGIBLE, CONDITIONAL, PENDING
+  eligibilityNotes  String?
+
+  // Phase 2: Maker-Checker Approval Workflow
+  approvalStatus    String    @default("DRAFT") // DRAFT, SUBMITTED_FOR_APPROVAL, APPROVED, REJECTED
+  submittedAt       DateTime?
+  approvedById      String?
+  approvedBy        User?     @relation("DealApprovals", fields: [approvedById], references: [id])
+  approvedAt        DateTime?
+  approvalNotes     String?
+  rejectionReason   String?
+
   createdAt  DateTime  @default(now())
   closedAt   DateTime?
   updatedAt  DateTime  @updatedAt
 
   @@map("deals")
+}
+
+model KycDocument {
+  id              String    @id @default(uuid())
+  customerId      String
+  customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  documentType    String    // PAN, AADHAAR, PASSPORT, SALARY_SLIP, ITR
+  documentNumber  String
+  fileUrl         String?
+  status          String    @default("PENDING") // PENDING, VERIFIED, REJECTED
+  verifiedById    String?
+  verifiedBy      User?     @relation(fields: [verifiedById], references: [id])
+  verifiedAt      DateTime?
+  rejectionReason String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("kyc_documents")
+}
+
+model Ticket {
+  id              String    @id @default(uuid())
+  ticketNumber    String    @unique
+  title           String
+  description     String
+  category        String    @default("GENERAL") // TRANSACTION, CARD, LOAN, KYC, GENERAL
+  priority        String    @default("MEDIUM")  // LOW, MEDIUM, HIGH, URGENT
+  status          String    @default("OPEN")    // OPEN, IN_PROGRESS, RESOLVED, CLOSED
+  customerId      String
+  customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assignedToId    String?
+  assignedTo      User?     @relation("AssignedTickets", fields: [assignedToId], references: [id])
+  createdById     String?
+  createdBy       User?     @relation("CreatedTickets", fields: [createdById], references: [id])
+  dueDate         DateTime?
+  resolvedAt      DateTime?
+  resolutionNotes String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("tickets")
 }
 
 model Task {
@@ -116,8 +186,8 @@ model ActivityLog {
   id         String   @id @default(uuid())
   userId     String
   user       User     @relation(fields: [userId], references: [id])
-  action     String   // CREATE, UPDATE, DELETE, STAGE_CHANGE, CONVERT, LOGIN
-  entityType String   // LEAD, CUSTOMER, DEAL, TASK, USER
+  action     String   // CREATE, UPDATE, DELETE, STAGE_CHANGE, CONVERT, LOGIN, KYC_VERIFY, DEAL_APPROVE, ROLE_CHANGE
+  entityType String   // LEAD, CUSTOMER, DEAL, TASK, USER, KYC_DOCUMENT, TICKET
   entityId   String
   details    String?
   createdAt  DateTime @default(now())

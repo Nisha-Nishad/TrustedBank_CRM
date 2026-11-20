@@ -19,6 +19,8 @@ import CustomerDetailPage from './pages/CustomerDetailPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
+import TicketsPage from './pages/TicketsPage';
+import AuditLogsPage from './pages/AuditLogsPage';
 import { api } from './services/api';
 
 export default function App() {
@@ -107,6 +109,9 @@ export default function App() {
           )}
           {activePage === 'deals' && <DealsPage onNotify={notify} />}
           {activePage === 'tasks' && <TasksPage onNotify={notify} />}
+          {activePage === 'tickets' && (
+            <TicketsPage onNotify={notify} onViewCustomer360={handleViewCustomer360} />
+          )}
           {activePage === 'reports' && <ReportsPage onNotify={notify} />}
           {activePage === 'settings' && <SettingsPage user={user} onNotify={notify} />}
           {activePage === 'customer-detail' && (
@@ -118,6 +123,9 @@ export default function App() {
           )}
           {activePage === 'admin' && user?.role === 'ADMIN' && (
             <AdminUsersPage onNotify={notify} />
+          )}
+          {activePage === 'audit' && user?.role === 'ADMIN' && (
+            <AuditLogsPage onNotify={notify} />
           )}
         </main>
 

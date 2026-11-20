@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -15,10 +17,19 @@ const reportRoutes = require('./routes/reportRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 
+// Phase 2: KYC & Support Tickets Routes
+const kycRoutes = require('./routes/kycRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
+
 const app = express();
 
+// Security Hardening with Helmet & CORS
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors());
 app.use(express.json());
+
+// Serve static KYC documents & uploads securely
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Basic health check
 app.get('/health', (req, res) => {
@@ -38,6 +49,10 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/reports', reportRoutes);
 app.use('/settings', settingsRoutes);
 app.use('/search', searchRoutes);
+
+// Phase 2 Routes
+app.use('/kyc', kycRoutes);
+app.use('/tickets', ticketRoutes);
 
 // Global 404 handler
 app.use((req, res, next) => {

@@ -8,6 +8,8 @@ import {
   BarChart3,
   Settings,
   ShieldCheck,
+  ShieldAlert,
+  LifeBuoy,
   LogOut,
   X,
 } from 'lucide-react';
@@ -26,13 +28,15 @@ export default function Sidebar({
     { id: 'customers', label: 'Customers', icon: Users },
     { id: 'deals', label: 'Deals (Pipeline)', icon: MessageSquare },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+    { id: 'tickets', label: 'Support & Tickets', icon: LifeBuoy },
     { id: 'reports', label: 'Reports', icon: BarChart3 },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
-  // Admin Users is visible for Admin role
+  // Admin options
   if (user?.role === 'ADMIN') {
     menuItems.push({ id: 'admin', label: 'Admin Users', icon: ShieldCheck });
+    menuItems.push({ id: 'audit', label: 'Audit Trail', icon: ShieldAlert });
   }
 
   const roleDisplay = user?.role === 'ADMIN' ? 'Admin' : user?.role === 'SALES_REP' ? 'Sales RM' : 'Manager';

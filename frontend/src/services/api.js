@@ -209,4 +209,67 @@ export const api = {
 
   // Global Search
   search: (query) => apiRequest(`/search?q=${encodeURIComponent(query)}`),
+
+  // Phase 2: KYC Module
+  getKycDocuments: (customerId) => apiRequest(`/kyc/customers/${customerId}/documents`),
+  addKycDocument: (customerId, docData) =>
+    apiRequest(`/kyc/customers/${customerId}/documents`, {
+      method: 'POST',
+      body: JSON.stringify(docData),
+    }),
+  verifyKycDocument: (docId) =>
+    apiRequest(`/kyc/documents/${docId}/verify`, {
+      method: 'PATCH',
+    }),
+  rejectKycDocument: (docId, rejectionReason) =>
+    apiRequest(`/kyc/documents/${docId}/reject`, {
+      method: 'PATCH',
+      body: JSON.stringify({ rejectionReason }),
+    }),
+  deleteKycDocument: (docId) =>
+    apiRequest(`/kyc/documents/${docId}`, {
+      method: 'DELETE',
+    }),
+
+  // Phase 2: Maker-Checker Approval Workflow
+  submitDealApproval: (dealId) =>
+    apiRequest(`/deals/${dealId}/submit-approval`, {
+      method: 'PATCH',
+    }),
+  approveDeal: (dealId, approvalNotes = '') =>
+    apiRequest(`/deals/${dealId}/approve`, {
+      method: 'PATCH',
+      body: JSON.stringify({ approvalNotes }),
+    }),
+  rejectDeal: (dealId, rejectionReason = '') =>
+    apiRequest(`/deals/${dealId}/reject`, {
+      method: 'PATCH',
+      body: JSON.stringify({ rejectionReason }),
+    }),
+
+  // Phase 2: Complaints / Support Tickets
+  getTickets: (params = {}) => {
+    const q = new URLSearchParams(params).toString();
+    return apiRequest(`/tickets${q ? `?${q}` : ''}`);
+  },
+  getTicketById: (id) => apiRequest(`/tickets/${id}`),
+  createTicket: (ticketData) =>
+    apiRequest('/tickets', {
+      method: 'POST',
+      body: JSON.stringify(ticketData),
+    }),
+  updateTicket: (id, updates) =>
+    apiRequest(`/tickets/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    }),
+  updateTicketStatus: (id, status, resolutionNotes = '') =>
+    apiRequest(`/tickets/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, resolutionNotes }),
+    }),
+  deleteTicket: (id) =>
+    apiRequest(`/tickets/${id}`, {
+      method: 'DELETE',
+    }),
 };

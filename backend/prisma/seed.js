@@ -5,11 +5,14 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding comprehensive 20-customer bank CRM dataset...');
+  const now = Date.now();
 
   // 1. Clean all tables in proper cascade order
   await prisma.activityLog.deleteMany();
   await prisma.note.deleteMany();
   await prisma.task.deleteMany();
+  await prisma.ticket.deleteMany();
+  await prisma.kycDocument.deleteMany();
   await prisma.deal.deleteMany();
   await prisma.lead.deleteMany();
   await prisma.customer.deleteMany();
@@ -146,8 +149,15 @@ async function main() {
     { title: 'Kiran Patel - Commercial Property Acquisition', amount: 7500000, stage: 'LOST', custIndex: 4 },
   ];
 
-  for (const d of dealsData) {
+  const loanTypes = ['HOME_LOAN', 'PERSONAL_LOAN', 'BUSINESS_LOAN', 'AUTO_LOAN', 'GOLD_LOAN', 'EDUCATION_LOAN'];
+  const approvalStatuses = ['APPROVED', 'SUBMITTED_FOR_APPROVAL', 'DRAFT', 'APPROVED', 'SUBMITTED_FOR_APPROVAL'];
+
+  for (let i = 0; i < dealsData.length; i++) {
+    const d = dealsData[i];
     const cust = createdCustomers[d.custIndex];
+    const loanType = loanTypes[i % loanTypes.length];
+    const approvalStatus = approvalStatuses[i % approvalStatuses.length];
+
     await prisma.deal.create({
       data: {
         title: d.title,
@@ -156,12 +166,22 @@ async function main() {
         customerId: cust.id,
         ownerId: rms[cust.rmIndex].id,
         closedAt: d.stage === 'WON' || d.stage === 'LOST' ? new Date() : null,
+        loanType,
+        tenureMonths: loanType === 'HOME_LOAN' ? 240 : 60,
+        interestRate: loanType === 'HOME_LOAN' ? 8.5 : 12.0,
+        monthlyIncome: 120000,
+        eligibilityStatus: 'ELIGIBLE',
+        eligibilityNotes: 'Estimated EMI within 50% FOIR threshold',
+        approvalStatus,
+        submittedAt: approvalStatus !== 'DRAFT' ? new Date(now - 86400000) : null,
+        approvedById: approvalStatus === 'APPROVED' ? manager.id : null,
+        approvedAt: approvalStatus === 'APPROVED' ? new Date(now - 3600000) : null,
+        approvalNotes: approvalStatus === 'APPROVED' ? 'Sanctioned after thorough credit & risk check' : null,
       },
     });
   }
 
   // 6. Distributed Tasks across Today, Upcoming, Overdue, and Completed
-  const now = Date.now();
   const tasksData = [
     { title: 'Call Mr. Verma - Home Loan Doc collection', type: 'CALL', dueOffsetHours: 2, status: 'PENDING', custIndex: 0 },
     { title: 'KYC Verification - Priya Patel', type: 'MEETING', dueOffsetHours: 4, status: 'PENDING', custIndex: 3 },
@@ -270,7 +290,102 @@ async function main() {
     },
   });
 
-  console.log('Seeding of 20 customers with full banking field distribution completed successfully!');
+  // 10. Seed Phase 2 KYC Documents for first 5 customers
+  const sampleKyc = [
+    { documentType: 'PAN', documentNumber: 'ABCDE1234F', status: 'VERIFIED', custIndex: 0 },
+    { documentType: 'AADHAAR', documentNumber: '987654321098', status: 'VERIFIED', custIndex: 0 },
+    { documentType: 'SALARY_SLIP', documentNumber: 'SLIP-OCT-2026', status: 'VERIFIED', custIndex: 0 },
+    { documentType: 'PAN', documentNumber: 'BCDEF2345G', status: 'VERIFIED', custIndex: 1 },
+    { documentType: 'ITR', documentNumber: 'ITR-AY2627', status: 'VERIFIED', custIndex: 1 },
+    { documentType: 'PAN', documentNumber: 'CDEFG3456H', status: 'PENDING', custIndex: 2 },
+    { documentType: 'AADHAAR', documentNumber: '556677889900', status: 'PENDING', custIndex: 2 },
+    { documentType: 'PASSPORT', documentNumber: 'Z8765432', status: 'VERIFIED', custIndex: 3 },
+  ];
+
+  for (const doc of sampleKyc) {
+    const cust = createdCustomers[doc.custIndex];
+    await prisma.kycDocument.create({
+      data: {
+        customerId: cust.id,
+        documentType: doc.documentType,
+        documentNumber: doc.documentNumber,
+        status: doc.status,
+        verifiedById: doc.status === 'VERIFIED' ? manager.id : null,
+        verifiedAt: doc.status === 'VERIFIED' ? new Date() : null,
+      },
+    });
+  }
+
+  // Update customer overall KYC status
+  await prisma.customer.update({ where: { id: createdCustomers[0].id }, data: { kycStatus: 'VERIFIED', monthlyIncome: 150000, cibilScore: 780 } });
+  await prisma.customer.update({ where: { id: createdCustomers[1].id }, data: { kycStatus: 'VERIFIED', monthlyIncome: 200000, cibilScore: 810 } });
+  await prisma.customer.update({ where: { id: createdCustomers[2].id }, data: { kycStatus: 'PENDING', monthlyIncome: 95000, cibilScore: 710 } });
+  await prisma.customer.update({ where: { id: createdCustomers[3].id }, data: { kycStatus: 'VERIFIED', monthlyIncome: 180000, cibilScore: 795 } });
+
+  // 11. Seed Phase 2 Support & Complaints Tickets
+  const ticketsData = [
+    {
+      ticketNumber: 'TICK-1001',
+      title: 'Delayed Home Loan Sanction Letter Dispatch',
+      description: 'Customer requesting expedited release of sanction letter for registrar registry.',
+      priority: 'URGENT',
+      category: 'LOAN',
+      status: 'OPEN',
+      slaHours: 24,
+      custIndex: 0,
+    },
+    {
+      ticketNumber: 'TICK-1002',
+      title: 'Commercial Current Account Cheque Book Re-issue',
+      description: 'Personalized 50-leaf cheque book requested at Nariman Point branch.',
+      priority: 'MEDIUM',
+      category: 'GENERAL',
+      status: 'IN_PROGRESS',
+      slaHours: 72,
+      custIndex: 1,
+    },
+    {
+      ticketNumber: 'TICK-1003',
+      title: 'UPI Transaction Debit Discrepancy on Merchant POS',
+      description: 'Amount ₹14,500 debited twice during card swipe. Reversal requested.',
+      priority: 'HIGH',
+      category: 'TRANSACTION',
+      status: 'RESOLVED',
+      slaHours: 48,
+      custIndex: 2,
+    },
+    {
+      ticketNumber: 'TICK-1004',
+      title: 'International Card Usage Activation for Dubai Travel',
+      description: 'Customer travelling next week, requested international POS and contactless limits enabled.',
+      priority: 'LOW',
+      category: 'CARD',
+      status: 'OPEN',
+      slaHours: 120,
+      custIndex: 3,
+    },
+  ];
+
+  for (const t of ticketsData) {
+    const cust = createdCustomers[t.custIndex];
+    await prisma.ticket.create({
+      data: {
+        ticketNumber: t.ticketNumber,
+        customerId: cust.id,
+        assignedToId: rms[cust.rmIndex].id,
+        title: t.title,
+        description: t.description,
+        priority: t.priority,
+        category: t.category,
+        status: t.status,
+        dueDate: new Date(now + t.slaHours * 3600000),
+        resolutionNotes: t.status === 'RESOLVED' ? 'Reversal credited back to savings account within 24 hours.' : null,
+        resolvedAt: t.status === 'RESOLVED' ? new Date() : null,
+      },
+    });
+  }
+
+  console.log('Seeding of 20 customers with full banking field distribution, KYC documents, and Support Tickets completed successfully!');
 }
 
 main()

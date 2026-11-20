@@ -9,6 +9,14 @@ describe('Module 1: Authentication & Role-Based Access Control', () => {
   let createdUserId;
 
   beforeAll(async () => {
+    // Ensure Nisha's password hash is `#dev@Free` before running auth tests
+    const bcrypt = require('bcryptjs');
+    const nishaHash = await bcrypt.hash('#dev@Free', 10);
+    await prisma.user.updateMany({
+      where: { email: 'ernishanishad@gmail.com' },
+      data: { passwordHash: nishaHash },
+    });
+
     // Ensure demo users exist
     const adminRes = await request(app).post('/auth/login').send({
       email: 'admin@trustbank.in',

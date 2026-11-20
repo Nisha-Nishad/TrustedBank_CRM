@@ -50,7 +50,7 @@ describe('Module 5: Tasks & Reminders Management', () => {
   describe('Task Creation & Validation', () => {
     it('Happy path: Rep 1 creates a Task due today', async () => {
       const todayDue = new Date();
-      todayDue.setHours(todayDue.getHours() + 2);
+      todayDue.setHours(12, 0, 0, 0);
 
       const res = await request(app)
         .post('/tasks')
